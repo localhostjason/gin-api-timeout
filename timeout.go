@@ -11,6 +11,10 @@ var (
 	defaultOptions TimeoutOptions
 )
 
+const (
+	contentType = "application/json"
+)
+
 func init() {
 	defaultOptions = TimeoutOptions{
 		CallBack:      nil,
@@ -34,7 +38,6 @@ func Timeout(opts ...Option) gin.HandlerFunc {
 		tw := &TimeoutWriter{Body: buffer, ResponseWriter: cp.Writer,
 			H: make(http.Header)}
 		tw.TimeoutOptions = defaultOptions
-		tw.SetContentType("application/json")
 
 		// Loop through each option
 		for _, opt := range opts {
@@ -76,6 +79,7 @@ func Timeout(opts ...Option) gin.HandlerFunc {
 
 			tw.TimedOut = true
 			tw.ResponseWriter.WriteHeader(tw.ErrorHttpCode)
+			tw.SetResponseContentType(contentType)
 			_, err = tw.ResponseWriter.Write([]byte(tw.DefaultMsg))
 			if err != nil {
 				panic(err)
@@ -102,6 +106,7 @@ func Timeout(opts ...Option) gin.HandlerFunc {
 			}
 
 			tw.ResponseWriter.WriteHeader(tw.Code)
+			tw.SetResponseContentType(contentType)
 			_, err = tw.ResponseWriter.Write(buffer.Bytes())
 			if err != nil {
 				panic(err)
