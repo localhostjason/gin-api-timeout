@@ -5,15 +5,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
-	"waf3console/biz/view/timeout/model"
 )
 
 var (
-	defaultOptions model.TimeoutOptions
+	defaultOptions TimeoutOptions
 )
 
 func init() {
-	defaultOptions = model.TimeoutOptions{
+	defaultOptions = TimeoutOptions{
 		CallBack:      nil,
 		DefaultMsg:    `{"code": -1, "msg":"http: Handler timeout"}`,
 		Timeout:       3 * time.Second,
@@ -21,7 +20,7 @@ func init() {
 	}
 }
 
-func Timeout(opts ...model.Option) gin.HandlerFunc {
+func Timeout(opts ...Option) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// **Notice**
 		// because gin use sync.pool to reuse context object.
@@ -31,8 +30,8 @@ func Timeout(opts ...model.Option) gin.HandlerFunc {
 		c.Keys = nil
 
 		// sync.Pool
-		buffer := model.GetBuff()
-		tw := &model.TimeoutWriter{Body: buffer, ResponseWriter: cp.Writer,
+		buffer := GetBuff()
+		tw := &TimeoutWriter{Body: buffer, ResponseWriter: cp.Writer,
 			H: make(http.Header)}
 		tw.TimeoutOptions = defaultOptions
 
@@ -106,7 +105,7 @@ func Timeout(opts ...model.Option) gin.HandlerFunc {
 			if err != nil {
 				panic(err)
 			}
-			model.PutBuff(buffer)
+			PutBuff(buffer)
 		}
 
 	}

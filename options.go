@@ -1,4 +1,4 @@
-package model
+package timeout
 
 import (
 	"net/http"
@@ -21,21 +21,21 @@ func WithTimeout(d time.Duration) Option {
 	}
 }
 
-// Optional parameters
+// WithErrorHttpCode Optional parameters
 func WithErrorHttpCode(code int) Option {
 	return func(t *TimeoutWriter) {
 		t.ErrorHttpCode = code
 	}
 }
 
-// Optional parameters
+// WithDefaultMsg Optional parameters
 func WithDefaultMsg(s string) Option {
 	return func(t *TimeoutWriter) {
 		t.DefaultMsg = s
 	}
 }
 
-// Optional parameters
+// WithCallBack Optional parameters
 func WithCallBack(f CallBackFunc) Option {
 	return func(t *TimeoutWriter) {
 		t.CallBack = f
