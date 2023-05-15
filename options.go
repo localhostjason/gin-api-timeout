@@ -1,6 +1,7 @@
 package timeout
 
 import (
+	"encoding/json"
 	"net/http"
 	"time"
 )
@@ -29,9 +30,13 @@ func WithErrorHttpCode(code int) Option {
 }
 
 // WithDefaultMsg Optional parameters
-func WithDefaultMsg(s string) Option {
+func WithDefaultMsg(s map[string]interface{}) Option {
 	return func(t *TimeoutWriter) {
-		t.DefaultMsg = s
+		data, err := json.Marshal(s)
+		if err != nil {
+			return
+		}
+		t.DefaultMsg = string(data)
 	}
 }
 
