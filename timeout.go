@@ -34,6 +34,7 @@ func Timeout(opts ...Option) gin.HandlerFunc {
 		tw := &TimeoutWriter{Body: buffer, ResponseWriter: cp.Writer,
 			H: make(http.Header)}
 		tw.TimeoutOptions = defaultOptions
+		tw.SetContentType("application/json")
 
 		// Loop through each option
 		for _, opt := range opts {

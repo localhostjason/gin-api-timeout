@@ -42,6 +42,10 @@ func (tw *TimeoutWriter) WriteHeader(code int) {
 	tw.writeHeader(code)
 }
 
+func (tw *TimeoutWriter) SetContentType(typ string) {
+	tw.Header().Set("Content-Type", typ)
+}
+
 func (tw *TimeoutWriter) writeHeader(code int) {
 	tw.WroteHeader = true
 	tw.Code = code
