@@ -7,7 +7,7 @@
 package main
 
 import (
-	timeout "git.s/zhangjie/gin_api_timeout"
+	timeout "github.com/localhostjason/gin-api-timeout"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"

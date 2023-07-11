@@ -1,4 +1,4 @@
-module git.s/zhangjie/gin_api_timeout
+module github.com/localhostjason/gin-api-timeout
 
 go 1.20
 
